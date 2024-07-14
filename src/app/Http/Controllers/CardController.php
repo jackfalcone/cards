@@ -2,30 +2,37 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Card;
+use App\Scryfall\Models\Card;
+use App\Scryfall\Services\CardServiceInterface;
 use App\Services\ScryfallService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class CardController extends Controller
 {
-    protected $scryfallService;
 
-    public function __construct(ScryfallService $scryfallService)
+    public function __construct(protected CardServiceInterface $cardService)
     {
-        $this->scryfallService = $scryfallService;
     }
 
-    public function index()
-    {
-        $cards = Card::all();
-        return Inertia::render('Cards', ['cards' => $cards]);
-    }
 
-    public function fetch(Request $request)
+    public function fetchCardsFromApi(Request $request): JsonResponse
     {
-        $set = $request->input('set');
-        $this->scryfallService->fetchAndSaveCards($set);
-        return redirect()->back()->with('success', 'Cards fetched successfully!');
+        Log::debug('Fetching cards from API');
+
+        $setCode = $request->input('setCode');
+        $existingCards = Card::where('set', $setCode)->get();
+
+        Log::debug($setCode);
+        Log::debug($existingCards);
+        if ($existingCards->isNotEmpty()) {
+            return JsonResponse::fromJsonString($existingCards);
+
+        }
+
+        $cards = $this->cardService->fetchAndSaveCards($setCode);
+        return JsonResponse::fromJsonString($cards);
     }
 }

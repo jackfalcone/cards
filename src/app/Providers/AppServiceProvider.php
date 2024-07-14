@@ -2,27 +2,17 @@
 
 namespace App\Providers;
 
+use App\Scryfall\Services\CardService;
+use App\Scryfall\Services\CardServiceInterface;
+use App\Scryfall\Services\SetService;
+use App\Scryfall\Services\SetServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        //
-    }
+    public $bindings = [
+        CardServiceInterface::class => CardService::class,
+        SetServiceInterface::class => SetService::class
+    ];
 
-    /**
-     * Bootstrap any application services.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        //
-    }
 }

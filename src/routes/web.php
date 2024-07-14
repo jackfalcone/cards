@@ -1,11 +1,10 @@
 <?php
 
 use App\Http\Controllers\CardController;
-use App\Http\Controllers\SetController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [SetController::class, 'index'])->name('dashboard');
-Route::get('/cards', [CardController::class, 'index'])->name('cards.index');
-Route::post('/cards/fetch', [CardController::class, 'fetch'])->name('cards.fetch');
+Route::get('/',  [DashboardController::class, 'index'])->name('dashboard');
+Route::get('/cards/fetch', [CardController::class, 'fetchCardsFromApi'])->name('cards.fetch');
 
 
