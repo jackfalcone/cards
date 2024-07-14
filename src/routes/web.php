@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\CardController;
+use App\Http\Controllers\SetController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Index');
-});
+Route::get('/', [SetController::class, 'index'])->name('dashboard');
+Route::get('/cards', [CardController::class, 'index'])->name('cards.index');
+Route::post('/cards/fetch', [CardController::class, 'fetch'])->name('cards.fetch');
+
+
