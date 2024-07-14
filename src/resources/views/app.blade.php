@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Laravel</title>
     @viteReactRefresh
-    @vite(['resources/css/app.css', 'resources/js/app.jsx'])
+    @vite(['resources/js/app.jsx'])
     @inertiaHead
 </head>
 

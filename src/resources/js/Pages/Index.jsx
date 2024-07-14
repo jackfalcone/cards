@@ -4,7 +4,7 @@ const Index = () => {
     console.log('test')
     return (
         <>
-            <h1>This is the Index component :) ***</h1>
+            <h1>This is the Index component :) Was lauft?</h1>
             Hallo
         </>
     )

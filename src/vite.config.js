@@ -15,12 +15,10 @@ export default defineConfig({
         react(),
     ],
     server: {
-        watch: {
-            usePolling: true,
+        host: true,
+        hmr: {
+            host: 'localhost',
         },
-        host: true, // Here
-        strictPort: true,
-        port: 8000,
-    },
+    }
 });
 
