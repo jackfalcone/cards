@@ -49,11 +49,11 @@ services:
       - ./opt/mysql_data:/var/lib/mysql
   npm:
     image: node:lts-buster
-    container_name: npm
+    container_name: laravel_npm
     volumes:
       - ./src:/var/www/html
     working_dir: /var/www/html
-    entrypoint: ['npm', '--no-bin-links']
+    entrypoint: ['npm']
     networks:
       - laravel_environment
   phpmyadmin:
