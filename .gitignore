@@ -7,7 +7,6 @@
 /src/public/assets/temp
 /src/storage/*.key
 /src/vendor
-/src/src/.env
 /src/.phpunit.result.cache
 /src/Homestead.json
 /src/Homestead.yaml
