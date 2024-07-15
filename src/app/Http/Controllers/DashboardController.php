@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Scryfall\Services\CardServiceInterface;
 use App\Scryfall\Services\SetServiceInterface;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class DashboardController extends Controller
@@ -18,16 +17,14 @@ class DashboardController extends Controller
 
     }
 
-    public function index(Request $request)
+    public function index(Request $request): \Inertia\Response
     {
-        $setCode = $request->input('setCode');
-        $cards = $setCode ? $this->cardService->getCardsBySetCode($setCode) : $this->cardService->getInitialRandomCards();
+        $randomCards = $this->cardService->getInitialRandomCards();
 
         $sets = $this->setService->fetchAndCacheSets();
         return Inertia::render('Cards/Index', [
-            'setCode' => $setCode,
             'sets' => $sets,
-            'cards' => $cards,
+            'randomCards' => $randomCards
         ]);
     }
 }

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('cards', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id()->primary();
             $table->uuid('oracle_id')->nullable();
             $table->json('multiverse_ids')->nullable();
             $table->string('name')->nullable();
@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('mana_cost')->nullable();
             $table->decimal('cmc', 8, 2)->nullable();
             $table->string('type_line')->nullable();
-            $table->string('oracle_text')->nullable();
+            $table->text('oracle_text')->nullable();
             $table->json('colors')->nullable();
             $table->json('color_identity')->nullable();
             $table->json('keywords')->nullable();

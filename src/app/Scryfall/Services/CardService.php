@@ -19,7 +19,6 @@ class CardService implements CardServiceInterface
 
                 foreach ($cards as $cardData) {
                     $data = [
-                        'id' => $cardData['id'],
                         'oracle_id' => $cardData['oracle_id'] ?? null,
                         'multiverse_ids' => isset($cardData['multiverse_ids']) ? json_encode($cardData['multiverse_ids']) : null,
                         'name' => $cardData['name'] ?? null,
@@ -79,7 +78,7 @@ class CardService implements CardServiceInterface
                         'purchase_uris' => isset($cardData['purchase_uris']) ? json_encode($cardData['purchase_uris']) : null,
                     ];
 
-                    Card::updateOrCreate(['id' => $cardData['id']], array_filter($data));
+                    Card::updateOrCreate(['oracle_id' => $cardData['oracle_id']], array_filter($data));
                 }
             } else {
                 Log::error('Failed to fetch cards from Scryfall', ['setCode' => $setCode, 'response' => $response->body()]);

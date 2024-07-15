@@ -71,6 +71,7 @@ class Card extends Model
     ];
 
     protected $casts = [
+        'id' => 'string',
         'multiverse_ids' => 'array',
         'highres_image' => 'boolean',
         'image_uris' => 'array',

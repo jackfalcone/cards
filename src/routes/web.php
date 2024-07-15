@@ -6,5 +6,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/',  [DashboardController::class, 'index'])->name('dashboard');
 Route::get('/cards/fetch', [CardController::class, 'fetchCardsFromApi'])->name('cards.fetch');
-
+Route::get('/cards/fetchdb', [CardController::class, 'fetchCardsFromDb'])->name('cards.fetchDb');
 

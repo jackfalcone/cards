@@ -6,8 +6,8 @@ PhpMyAdmin: http://localhost:8891
 - docker compose run artisan migrate
 - docker compose run artisan serve
 - docker compose run npm i
-- docker compose run npm dev (currently not working, will be fixed soon :) 
 - docker compose run npm build 
+- - docker compose run npm dev
 
 http://localhost:8080
 
