@@ -32,7 +32,10 @@ class CardService implements CardServiceInterface
                             'layout' => $cardData['layout'] ?? null,
                             'highres_image' => $cardData['highres_image'] ?? null,
                             'image_status' => $cardData['image_status'] ?? null,
-                            'image_uris' => isset($cardData['image_uris']) ? json_encode($cardData['image_uris']) : null,
+                            // Some cards have image_uris inside card_faces
+                            'image_uris' => isset($cardData['card_faces'])
+                                ? json_encode($cardData['card_faces'][0]['image_uris'])
+                                : (isset($cardData['image_uris']) ? json_encode($cardData['image_uris']) : null),
                             'mana_cost' => $cardData['mana_cost'] ?? null,
                             'cmc' => $cardData['cmc'] ?? null,
                             'type_line' => $cardData['type_line'] ?? null,
@@ -83,7 +86,11 @@ class CardService implements CardServiceInterface
 
                         Card::updateOrCreate(['oracle_id' => $cardData['oracle_id']], array_filter($data));
 
-                        $this->saveImagesAsync($cardData['image_uris']);
+                        $imageUris = isset($cardData['card_faces'])
+                            ? $cardData['card_faces'][0]['image_uris']
+                            : ($cardData['image_uris'] ?? []);
+
+                        $this->saveImagesAsync($imageUris);
                     }
                 } else {
                     Log::error('Failed to fetch cards from Scryfall', ['setCode' => $setCode, 'response' => $response->body()]);

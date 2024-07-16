@@ -7,15 +7,13 @@ import { LazyLoadImage } from 'react-lazy-load-image-component'
 const Card = ({ card, source }) => {
     const [imgUrl, setImgUrl] = useState({})
 
-    console.log(card)
-
     useEffect(() => {
         if (source === 'api') {
-            const cardObjImageUris = JSON.parse(card['image_uris'])
+            const cardObjImageUris = JSON.parse(card['image_uris']);
             const imgUrlObj = {
-                small: cardObjImageUris.small,
-                normal: cardObjImageUris.normal,
-                large: cardObjImageUris.large,
+                small: cardObjImageUris ? cardObjImageUris.small : '',
+                normal:  cardObjImageUris ? cardObjImageUris.normal : '',
+                large:  cardObjImageUris ? cardObjImageUris.large : '',
             }
             setImgUrl(imgUrlObj)
         } else {
