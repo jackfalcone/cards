@@ -21,6 +21,7 @@ class CardService implements CardServiceInterface
 
                     foreach ($cards as $cardData) {
                         $data = [
+                            'scryfall_id' => $cardData['id'] ?? null,
                             'oracle_id' => $cardData['oracle_id'] ?? null,
                             'multiverse_ids' => isset($cardData['multiverse_ids']) ? json_encode($cardData['multiverse_ids']) : null,
                             'name' => $cardData['name'] ?? null,
@@ -128,4 +129,6 @@ class CardService implements CardServiceInterface
     {
         return Card::inRandomOrder()->take(10)->get();
     }
+
+
 }

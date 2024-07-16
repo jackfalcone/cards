@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('cards', function (Blueprint $table) {
             $table->id()->primary();
+            $table->string('scryfall_id')->nullable();
             $table->uuid('oracle_id')->nullable();
             $table->json('multiverse_ids')->nullable();
             $table->string('name')->nullable();

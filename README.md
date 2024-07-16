@@ -7,6 +7,7 @@ The src/.env file is included in Git as it does not yet contain any security-rel
 - ```docker compose run artisan migrate```
 - ```docker compose run artisan serve```
 - ```docker compose run artisan queue:work```
+- ```php artisan storage:link```
 - ```docker compose run npm i```
 - ```docker compose run npm build```
 - ```docker compose run npm dev```

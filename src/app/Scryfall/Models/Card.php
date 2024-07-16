@@ -11,6 +11,7 @@ class Card extends Model
 
     protected $fillable = [
         'id',
+        'scryfall_id',
         'oracle_id',
         'multiverse_ids',
         'name',
@@ -72,6 +73,7 @@ class Card extends Model
 
     protected $casts = [
         'id' => 'string',
+        'scryfall_id' => 'string',
         'multiverse_ids' => 'array',
         'highres_image' => 'boolean',
         'image_uris' => 'array',

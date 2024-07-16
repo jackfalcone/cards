@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import AutocompleteSelect from '../../components/AutocompleteSelect.jsx'
 import CardsGrid from '../../components/CardsGrid.jsx'
 import Heading from '../../components/Heading.jsx'
 import ButtonDownload from '../../components/ButtonDownload.jsx'
 
 const Index = ({ sets, randomCards }) => {
-    const [selectedSet, setSelectedSet] = useState()
+    const [selectedSet, setSelectedSet] = useState(null)
     const [fetchedCards, setFetchedCards] = useState([])
 
     const fetchSelectedSetFromApi = async () => {
@@ -14,7 +14,9 @@ const Index = ({ sets, randomCards }) => {
                 method: 'GET',
                 url: `/cards/fetch?setCode=${selectedSet}`,
             })
-            setFetchedCards(response.data);
+            const cardObject = response.data
+            cardObject["source"] = 'api'
+            setFetchedCards(cardObject)
         } catch (error) {
             console.error('Error fetching cards:', error)
         }
@@ -26,7 +28,9 @@ const Index = ({ sets, randomCards }) => {
                 method: 'GET',
                 url: `/cards/fetchdb?setCode=${value}`,
             })
-            setFetchedCards(response.data);
+            const cardObject = response.data
+            cardObject["source"] = 'db'
+            setFetchedCards(cardObject)
         } catch (error) {
             console.error('Error fetching cards:', error)
         }
@@ -34,9 +38,9 @@ const Index = ({ sets, randomCards }) => {
 
     return (
         <div className="">
-            <div className="mx-auto border border-red-600">
+            <div className="mx-auto mb-6">
                <Heading textBefore="Magic" textMarked="The Gathering" textAfter="cards" />
-                <div className="flex justify-evenly align-baseline max-w-md mx-auto border border-orange-600">
+                <div className="mt-12 flex justify-evenly align-baseline max-w-md mx-auto">
                     <AutocompleteSelect
                         sets={sets}
                         setSelectedSet={setSelectedSet}
@@ -52,14 +56,13 @@ const Index = ({ sets, randomCards }) => {
 
             {
                 randomCards && !selectedSet
-                    ?   <CardsGrid cards={randomCards} />
+                    ?   <CardsGrid cards={randomCards} source={randomCards.source} />
                     :   null
             }
 
-
             {
                 fetchedCards.length > 0
-                    ?   <CardsGrid cards={fetchedCards} />
+                    ?   <CardsGrid cards={fetchedCards} source={fetchedCards.source} />
                     :   null
             }
 

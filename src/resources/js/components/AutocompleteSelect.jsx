@@ -18,8 +18,10 @@ const AutocompleteSelect = ({ sets, setSelectedSet, fetchSelectedSetFromDb }) =>
     }, [])
 
     const handleOnChange = (event, newValue) => {
-        fetchSelectedSetFromDb(newValue.id)
-        setSelectedSet(newValue.id)
+        if (newValue) {
+            fetchSelectedSetFromDb(newValue.id)
+            setSelectedSet(newValue.id)
+        }
     }
 
     return(
@@ -30,6 +32,7 @@ const AutocompleteSelect = ({ sets, setSelectedSet, fetchSelectedSetFromDb }) =>
             sx={{ width: 300 }}
             style={{ marginLeft: 'auto', marginRight: 'auto' }}
             getOptionLabel={option => option.label}
+            isOptionEqualToValue={(option, value) => option.id === value.id}
             renderInput={params => <TextField {...params} label="Set" />}
             onChange={handleOnChange}
             renderOption={(props, option) => {
