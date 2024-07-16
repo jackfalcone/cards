@@ -90,9 +90,7 @@ class CardService implements CardServiceInterface
 
                         Card::updateOrCreate(['oracle_id' => $cardData['oracle_id']], array_filter($data));
 
-                        $imageUris = isset($cardData['card_faces'])
-                            ? $cardData['card_faces'][0]['image_uris']
-                            : ($cardData['image_uris'] ?? []);
+                        $imageUris = $cardData['card_faces'][0]['image_uris'] ?? ($cardData['image_uris'] ?? []);
 
                         $this->saveImagesAsync($imageUris);
                     }
