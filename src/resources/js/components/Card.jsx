@@ -6,10 +6,12 @@ import { LazyLoadImage } from 'react-lazy-load-image-component'
 
 const Card = ({ card, source }) => {
     const [imgUrl, setImgUrl] = useState({})
+    const [fallback, setFallback] = useState('')
 
     useEffect(() => {
+        const cardObjImageUris = JSON.parse(card['image_uris']);
+        setFallback(cardObjImageUris.large)
         if (source === 'api') {
-            const cardObjImageUris = JSON.parse(card['image_uris']);
             const imgUrlObj = {
                 small: cardObjImageUris ? cardObjImageUris.small : '',
                 normal:  cardObjImageUris ? cardObjImageUris.normal : '',
@@ -35,6 +37,8 @@ const Card = ({ card, source }) => {
                 ${imgUrl.normal} 768w,
                 ${imgUrl.large} 1280w`
                 }
+                sizes="(max-width: 300px) 300px, (max-width: 768px) 768px, 1280px"
+                onError={e => {e.target.onError = null; e.target.src= fallback}}
             />
         </picture>
     )
