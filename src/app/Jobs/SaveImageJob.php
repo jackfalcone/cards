@@ -15,19 +15,18 @@ class SaveImageJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected string $imageSize;
-    protected string $size;
+    public string $imageUrl;
+    public string $size;
 
     /**
      * Create a new job instance.
      *
-     * @param string $imageSize
+     * @param string $imageUrl
      * @param string $size
-     * @return void
      */
-    public function __construct(string $imageSize, string $size)
+    public function __construct(string $imageUrl, string $size)
     {
-        $this->imageSize = $imageSize;
+        $this->imageUrl = $imageUrl;
         $this->size = $size;
     }
 
@@ -39,16 +38,16 @@ class SaveImageJob implements ShouldQueue
     public function handle(): void
     {
         try {
-            $parsedUrl = parse_url($this->imageSize, PHP_URL_PATH);
+            $parsedUrl = parse_url($this->imageUrl, PHP_URL_PATH);
             if (!$parsedUrl) {
-                throw new Exception("Invalid URL: $this->imageSize");
+                throw new Exception("Invalid URL: $this->imageUrl");
             }
 
             $pathInfo = pathinfo($parsedUrl);
 
-            $contents = file_get_contents($this->imageSize);
+            $contents = file_get_contents($this->imageUrl);
             if ($contents === false) {
-                throw new Exception("Could not fetch image from URL: $this->imageSize");
+                throw new Exception("Could not fetch image from URL: $this->imageUrl");
             }
 
             $path = 'images/' .  $pathInfo['filename'] . '/' . $this->size . '.' . $pathInfo['extension'];

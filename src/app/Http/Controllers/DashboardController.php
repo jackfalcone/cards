@@ -17,6 +17,10 @@ class DashboardController extends Controller
 
     }
 
+    /**
+     * @param Request $request
+     * @return \Inertia\Response
+     */
     public function index(Request $request): \Inertia\Response
     {
         $randomCards = $this->cardService->getInitialRandomCards();

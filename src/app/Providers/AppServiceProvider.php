@@ -10,7 +10,7 @@ use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    public $bindings = [
+    public array $bindings = [
         CardServiceInterface::class => CardService::class,
         SetServiceInterface::class => SetService::class
     ];

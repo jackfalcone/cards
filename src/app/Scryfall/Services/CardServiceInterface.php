@@ -7,10 +7,33 @@ use Illuminate\Support\Collection;
 
 interface CardServiceInterface
 {
+    /**
+     * @param string $setCode
+     * @return Collection|false
+     */
     public function fetchAndSaveCards(string $setCode): Collection|false;
 
+    /**
+     * @param string $setCode
+     * @return Collection
+     */
     public function getCardsBySetCode(string $setCode): Collection;
 
+    /**
+     * @return Collection
+     */
     public function getInitialRandomCards(): Collection;
+
+    /**
+     * @param string $setCode
+     * @return bool
+     */
+    public function cardsExistInDb(string $setCode): bool;
+
+    /**
+     * @param array $imageUris
+     * @return void
+     */
+    public function saveImagesAsync(array $imageUris): void;
 
 }

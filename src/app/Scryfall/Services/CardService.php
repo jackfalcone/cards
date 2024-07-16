@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Log;
 
 class CardService implements CardServiceInterface
 {
+    /**
+     * @param string $setCode
+     * @return Collection|false
+     */
     public function fetchAndSaveCards(string $setCode): Collection|false
     {
         if (!$this->cardsExistInDb($setCode)) {
@@ -33,7 +37,7 @@ class CardService implements CardServiceInterface
                             'highres_image' => $cardData['highres_image'] ?? null,
                             'image_status' => $cardData['image_status'] ?? null,
                             // Some cards have image_uris inside card_faces
-                            'image_uris' => isset($cardData['card_faces'])
+                            'image_uris' => (isset($cardData['card_faces'][0]['image_uris']))
                                 ? json_encode($cardData['card_faces'][0]['image_uris'])
                                 : (isset($cardData['image_uris']) ? json_encode($cardData['image_uris']) : null),
                             'mana_cost' => $cardData['mana_cost'] ?? null,
@@ -104,7 +108,11 @@ class CardService implements CardServiceInterface
         return false;
     }
 
-    private function saveImagesAsync(array $imageUris): void
+    /**
+     * @param array $imageUris
+     * @return void
+     */
+    public function saveImagesAsync(array $imageUris): void
     {
         $imageSizes = [
             'small' => $imageUris['small'] ?? null,
@@ -112,14 +120,18 @@ class CardService implements CardServiceInterface
             'large' => $imageUris['large'] ?? null
         ];
 
-        foreach ($imageSizes as $size => $imageSize) {
-            if ($imageSize) {
-                SaveImageJob::dispatch($imageSize, $size);
+        foreach ($imageSizes as $size => $imageUrl) {
+            if ($imageUrl) {
+                SaveImageJob::dispatch($imageUrl, $size);
             }
         }
     }
 
-    private function cardsExistInDb(string $setCode): bool
+    /**
+     * @param string $setCode
+     * @return bool
+     */
+    public function cardsExistInDb(string $setCode): bool
     {
         // Check if any cards with the given setCode exist in the database
         $count = Card::where('set', $setCode)->count();
@@ -127,11 +139,18 @@ class CardService implements CardServiceInterface
         return $count > 0;
     }
 
+    /**
+     * @param string $setCode
+     * @return Collection
+     */
     public function getCardsBySetCode(string $setCode): Collection
     {
         return Card::where('set', $setCode)->get();
     }
 
+    /**
+     * @return Collection
+     */
     public function getInitialRandomCards(): Collection
     {
         return Card::inRandomOrder()->take(10)->get();

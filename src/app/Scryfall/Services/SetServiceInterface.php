@@ -9,5 +9,8 @@ use Illuminate\Support\Collection;
 
 interface SetServiceInterface
 {
+    /**
+     * @return Collection
+     */
     public function fetchAndCacheSets(): Collection;
 }
