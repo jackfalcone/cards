@@ -11,7 +11,7 @@ The src/.env file is included in Git as it does not yet contain any security-rel
 
 #### Database migration and symbolic link for local file storage
 - ```docker compose run artisan migrate```
-- ```docker compose run storage:link```
+- ```docker compose run artisan storage:link```
 
 #### Run PHP webserver, Node development server and the queue worker
 - ```docker compose run artisan serve```
