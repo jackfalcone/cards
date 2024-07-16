@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
+import 'react-lazy-load-image-component/src/effects/blur.css'
 
-//"https://cards.scryfall.io/small/front/1/a/1aa1e7ff-d0b9-441f-bcbb-4f0f89cab038.jpg?1675905751"
-
-
-const Card = ({ card, source }) => {
+const Card = ({ card, source, scrollPosition }) => {
     const [imgUrl, setImgUrl] = useState({})
     const [fallback, setFallback] = useState('')
 
@@ -31,6 +29,9 @@ const Card = ({ card, source }) => {
     return (
         <picture className="p-4 max-w-sm">
             <LazyLoadImage
+                alt={card.name}
+                effect="blur"
+                scrollPosition={scrollPosition}
                 src={imgUrl.large}
                 srcSet={`
                 ${imgUrl.small} 300w,
