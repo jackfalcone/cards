@@ -4,7 +4,7 @@ const Card = ({ card }) => {
 
     return(
         <div>
-            {card.name}
+            {card.set_name}
         </div>
     )
 }

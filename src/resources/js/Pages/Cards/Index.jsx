@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import AutocompleteSelect from '../../components/AutocompleteSelect.jsx'
 import CardsGrid from '../../components/CardsGrid.jsx'
 import Heading from '../../components/Heading.jsx'
+import ButtonDownload from '../../components/ButtonDownload.jsx'
 
 const Index = ({ sets, randomCards }) => {
     const [selectedSet, setSelectedSet] = useState()
@@ -23,7 +24,7 @@ const Index = ({ sets, randomCards }) => {
         try {
             const response = await window.axios({
                 method: 'GET',
-                url: `/cards/fetch?setCode=${selectedSet}`,
+                url: `/cards/fetchdb?setCode=${value}`,
             })
             setFetchedCards(response.data);
         } catch (error) {
@@ -35,20 +36,19 @@ const Index = ({ sets, randomCards }) => {
         <div className="">
             <div className="mx-auto border border-red-600">
                <Heading textBefore="Magic" textMarked="The Gathering" textAfter="cards" />
-                <AutocompleteSelect
-                    sets={sets}
-                    setSelectedSet={setSelectedSet}
-                    fetchSelectedSetFromDb={fetchSelectedSetFromDb}
-                />
+                <div className="flex justify-evenly align-baseline max-w-md mx-auto border border-orange-600">
+                    <AutocompleteSelect
+                        sets={sets}
+                        setSelectedSet={setSelectedSet}
+                        fetchSelectedSetFromDb={fetchSelectedSetFromDb}
+                    />
+                    <ButtonDownload
+                        fetchSelectedSetFromApi={fetchSelectedSetFromApi}
+                        disabled={!(fetchedCards.length === 0 && selectedSet)}
+                        text="get cards"
+                    />
+                </div>
             </div>
-
-            {
-                fetchedCards.length === 0 && selectedSet
-                    ?   <div>
-                            <button onClick={fetchSelectedSetFromApi}>Fetch</button>
-                        </div>
-                    :   null
-            }
 
             {
                 randomCards && !selectedSet
