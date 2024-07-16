@@ -26,7 +26,7 @@ class CardController extends Controller
     public function fetchCardsFromDb(Request $request): JsonResponse
     {
         $setCode = $request->input('setCode');
-        $existingCards = Card::where('set', $setCode)->get();
+        $existingCards = $this->cardService->getCardsBySetCode($setCode);
 
         return JsonResponse::fromJsonString($existingCards);
     }

@@ -15,9 +15,7 @@ class SetService implements SetServiceInterface
             $response = Http::get("https://api.scryfall.com/sets");
             $sets = $response->json()['data'];
 
-            $collection = collect($sets);
-            Log::debug($collection->toJson());
-            return $collection;
+            return collect($sets);
         });
     }
 }
