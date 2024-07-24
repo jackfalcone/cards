@@ -7,6 +7,8 @@ import ButtonDownload from '../../components/ButtonDownload.jsx'
 const Index = ({ sets, randomCards }) => {
     const [selectedSet, setSelectedSet] = useState(null)
     const [fetchedCards, setFetchedCards] = useState([])
+    const [selectedSetIconUri, setSelectedSetIconUri] = useState()
+    const [selectedSetLabel, setSelectedSetLabel] = useState()
 
     const fetchSelectedSetFromApi = async () => {
         try {
@@ -45,6 +47,8 @@ const Index = ({ sets, randomCards }) => {
                         sets={sets}
                         setSelectedSet={setSelectedSet}
                         fetchSelectedSetFromDb={fetchSelectedSetFromDb}
+                        setSelectedSetIconUri={setSelectedSetIconUri}
+                        setSelectedSetLabel={setSelectedSetLabel}
                     />
                     <ButtonDownload
                         fetchSelectedSetFromApi={fetchSelectedSetFromApi}
@@ -62,7 +66,12 @@ const Index = ({ sets, randomCards }) => {
 
             {
                 fetchedCards.length > 0
-                    ?   <CardsGrid cards={fetchedCards} source={fetchedCards.source} />
+                    ?   <CardsGrid
+                            cards={fetchedCards}
+                            source={fetchedCards.source}
+                            selectedSetIconUri={selectedSetIconUri}
+                            selectedSetLabel={selectedSetLabel}
+                        />
                     :   null
             }
 

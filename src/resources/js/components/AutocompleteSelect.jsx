@@ -4,7 +4,13 @@ import Autocomplete from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
 
 
-const AutocompleteSelect = ({ sets, setSelectedSet, fetchSelectedSetFromDb }) => {
+const AutocompleteSelect = ({
+    sets,
+    setSelectedSet,
+    fetchSelectedSetFromDb,
+    setSelectedSetIconUri,
+    setSelectedSetLabel
+}) => {
     const [optionsSet, setOptionsSet] = useState([])
 
     useEffect(() => {
@@ -21,6 +27,9 @@ const AutocompleteSelect = ({ sets, setSelectedSet, fetchSelectedSetFromDb }) =>
         if (newValue) {
             fetchSelectedSetFromDb(newValue.id)
             setSelectedSet(newValue.id)
+            const selectedSet = optionsSet.filter(set => set.id === newValue.id)
+            setSelectedSetIconUri(selectedSet[0].svgUrl)
+            setSelectedSetLabel(selectedSet[0].label)
         }
     }
 
