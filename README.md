@@ -18,6 +18,13 @@ The src/.env file is included in Git as it does not yet contain any security-rel
 - ```docker compose run artisan queue:work```
 - ```docker compose run npm dev```
 
+### Project is already setup
+You might have to remove the tables and do a migration again (depending on the last changes)
+- ```docker compose run artisan migrate:reset```
+- ```docker compose run artisan migrate```
+- This will end the queue worker!
+- ```docker compose run artisan queue:work```
+
 http://localhost:8080
 
 PhpMyAdmin: http://localhost:8891
