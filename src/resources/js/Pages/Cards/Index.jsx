@@ -1,34 +1,34 @@
-import React, { useState } from 'react';
-import AutocompleteSelect from '../../components/AutocompleteSelect.jsx';
-import CardsGrid from '../../components/CardsGrid.jsx';
-import Heading from '../../components/Heading.jsx';
-import ButtonDownload from '../../components/ButtonDownload.jsx';
+import React, { useState } from 'react'
+import AutocompleteSelect from '../../components/AutocompleteSelect.jsx'
+import CardsGrid from '../../components/CardsGrid.jsx'
+import Heading from '../../components/Heading.jsx'
+import ButtonDownload from '../../components/ButtonDownload.jsx'
 
 const Index = ({ sets, randomCards }) => {
-    const [selectedSet, setSelectedSet] = useState(null);
-    const [fetchedCards, setFetchedCards] = useState([]);
-    const [selectedSetIconUri, setSelectedSetIconUri] = useState(null);
-    const [selectedSetLabel, setSelectedSetLabel] = useState(null);
+    const [selectedSet, setSelectedSet] = useState(null)
+    const [fetchedCards, setFetchedCards] = useState([])
+    const [selectedSetIconUri, setSelectedSetIconUri] = useState(null)
+    const [selectedSetLabel, setSelectedSetLabel] = useState(null)
 
     const fetchCards = async (url, accumulatedCards = []) => {
         try {
-            const response = await window.axios.get(url);
-            const newCards = response.data;
-            const allCards = [...accumulatedCards, ...newCards];
+            const response = await window.axios.get(url)
+            const newCards = response.data
+            const allCards = [...accumulatedCards, ...newCards]
 
             if (response.next_page) {
-                await fetchCards(response.next_page, allCards);
+                await fetchCards(response.next_page, allCards)
             } else {
-                setFetchedCards(allCards);
+                setFetchedCards(allCards)
             }
         } catch (error) {
-            console.error('Error fetching cards:', error);
+            console.error('Error fetching cards:', error)
         }
-    };
+    }
 
-    const fetchSelectedSetFromApi = () => fetchCards(`/cards/fetch?setCode=${selectedSet}`);
+    const fetchSelectedSetFromApi = () => fetchCards(`/cards/fetch?setCode=${selectedSet}`)
 
-    const fetchSelectedSetFromDb = (value) => fetchCards(`/cards/fetchdb?setCode=${value}`);
+    const fetchSelectedSetFromDb = (value) => fetchCards(`/cards/fetchdb?setCode=${value}`)
 
     return (
         <div>
@@ -63,7 +63,7 @@ const Index = ({ sets, randomCards }) => {
                 />
             )}
         </div>
-    );
-};
+    )
+}
 
-export default Index;
+export default Index
