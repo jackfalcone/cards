@@ -7,41 +7,26 @@ import ButtonDownload from '../../components/ButtonDownload.jsx'
 const Index = ({ sets, randomCards }) => {
     const [selectedSet, setSelectedSet] = useState(null)
     const [fetchedCards, setFetchedCards] = useState([])
-    const [selectedSetIconUri, setSelectedSetIconUri] = useState()
-    const [selectedSetLabel, setSelectedSetLabel] = useState()
+    const [selectedSetIconUri, setSelectedSetIconUri] = useState(null)
+    const [selectedSetLabel, setSelectedSetLabel] = useState(null)
 
-    const fetchSelectedSetFromApi = async () => {
+    const fetchCards = async (url) => {
         try {
-            const response = await window.axios({
-                method: 'GET',
-                url: `/cards/fetch?setCode=${selectedSet}`,
-            })
-            const cardObject = response.data
-            cardObject["source"] = 'api'
-            setFetchedCards(cardObject)
+            const response = await window.axios.get(url)
+            setFetchedCards(response.data)
         } catch (error) {
             console.error('Error fetching cards:', error)
         }
     }
 
-    const fetchSelectedSetFromDb = async (value) => {
-        try {
-            const response = await window.axios({
-                method: 'GET',
-                url: `/cards/fetchdb?setCode=${value}`,
-            })
-            const cardObject = response.data
-            cardObject["source"] = 'db'
-            setFetchedCards(cardObject)
-        } catch (error) {
-            console.error('Error fetching cards:', error)
-        }
-    }
+    const fetchSelectedSetFromApi = () => fetchCards(`/cards/fetch?setCode=${selectedSet}`)
+
+    const fetchSelectedSetFromDb = (value) => fetchCards(`/cards/fetchdb?setCode=${value}`)
 
     return (
-        <div className="">
+        <div>
             <div className="mx-auto mb-6">
-               <Heading textBefore="Magic" textMarked="The Gathering" textAfter="Cards" />
+                <Heading textBefore="Magic" textMarked="The Gathering" textAfter="Cards" />
                 <div className="mt-12 flex flex-wrap justify-evenly align-baseline max-w-md mx-auto">
                     <AutocompleteSelect
                         sets={sets}
@@ -52,29 +37,24 @@ const Index = ({ sets, randomCards }) => {
                     />
                     <ButtonDownload
                         fetchSelectedSetFromApi={fetchSelectedSetFromApi}
-                        disabled={!(fetchedCards.length === 0 && selectedSet)}
+                        disabled={!(!fetchedCards.length && selectedSet)}
                         text="get cards"
                     />
                 </div>
             </div>
 
-            {
-                randomCards && !selectedSet
-                    ?   <CardsGrid cards={randomCards} source={randomCards.source} />
-                    :   null
-            }
+            {randomCards && !selectedSet && (
+                <CardsGrid cards={randomCards} source={randomCards.source} />
+            )}
 
-            {
-                fetchedCards.length > 0
-                    ?   <CardsGrid
-                            cards={fetchedCards}
-                            source={fetchedCards.source}
-                            selectedSetIconUri={selectedSetIconUri}
-                            selectedSetLabel={selectedSetLabel}
-                        />
-                    :   null
-            }
-
+            {fetchedCards.length > 0 && (
+                <CardsGrid
+                    cards={fetchedCards}
+                    source={fetchedCards.source}
+                    selectedSetIconUri={selectedSetIconUri}
+                    selectedSetLabel={selectedSetLabel}
+                />
+            )}
         </div>
     )
 }

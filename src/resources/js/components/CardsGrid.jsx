@@ -1,17 +1,22 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import Card from './Card.jsx'
 import { trackWindowScroll } from 'react-lazy-load-image-component'
 import CardsGridHeader from './CardsGridHeader.jsx'
 
 const CardsGrid = ({ cards, source, selectedSetIconUri, selectedSetLabel, scrollPosition }) => {
-    const [priceSetUsd, setPriceSetUsd] = useState()
-    const [setAmount, setSetAmount] = useState()
+    const [priceSetUsd, setPriceSetUsd] = useState(0)
+    const [setAmount, setSetAmount] = useState(0)
+
+    const calculateTotalPrice = (cards) => {
+        const pricesUsd = cards.map(card => JSON.parse(card.prices)?.usd || 0)
+        return pricesUsd.reduce((total, price) => total + Number(price), 0)
+    }
+
+    const calculateSetAmount = (cards) => cards.length
 
     useEffect(() => {
-        const pricesUsd = cards.map(card => JSON.parse(card['prices'])['usd'])
-        const pricesUsdNotNull = pricesUsd.filter(price => price)
-        setPriceSetUsd(pricesUsdNotNull.reduce((prev, next) => prev + Number(next), 0))
-        setSetAmount(cards.length)
+        setPriceSetUsd(calculateTotalPrice(cards))
+        setSetAmount(calculateSetAmount(cards))
     }, [cards])
 
     return (
@@ -25,11 +30,9 @@ const CardsGrid = ({ cards, source, selectedSetIconUri, selectedSetLabel, scroll
                 />
             </div>
             <div className="flex flex-wrap justify-center">
-                {
-                    cards.map((card) => (
-                        <Card key={card.id} card={card} source={source} scrollPosition={scrollPosition}/>
-                    ))
-                }
+                {cards.map(card => (
+                    <Card key={card.id} card={card} source={source} scrollPosition={scrollPosition} />
+                ))}
             </div>
         </div>
     )
