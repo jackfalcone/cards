@@ -86,13 +86,14 @@ class CardService implements CardServiceInterface
                             'prices' => isset($cardData['prices']) ? json_encode($cardData['prices']) : null,
                             'related_uris' => isset($cardData['related_uris']) ? json_encode($cardData['related_uris']) : null,
                             'purchase_uris' => isset($cardData['purchase_uris']) ? json_encode($cardData['purchase_uris']) : null,
+                            'imgs_local' => ['small' => '', 'normal' => '', 'large' => ''],
                         ];
 
                         Card::updateOrCreate(['oracle_id' => $cardData['oracle_id']], array_filter($data));
 
                         $imageUris = $cardData['card_faces'][0]['image_uris'] ?? ($cardData['image_uris'] ?? []);
 
-                        $this->saveImagesAsync($imageUris);
+                        $this->saveImagesAsync($imageUris, $cardData['oracle_id']);
                     }
                 } else {
                     Log::error('Failed to fetch cards from Scryfall', ['setCode' => $setCode, 'response' => $response->body()]);
@@ -108,9 +109,10 @@ class CardService implements CardServiceInterface
 
     /**
      * @param array $imageUris
+     * @param string $oracleId
      * @return void
      */
-    public function saveImagesAsync(array $imageUris): void
+    public function saveImagesAsync(array $imageUris, string $oracleId): void
     {
         $imageSizes = [
             'small' => $imageUris['small'] ?? null,
@@ -120,7 +122,7 @@ class CardService implements CardServiceInterface
 
         foreach ($imageSizes as $size => $imageUrl) {
             if ($imageUrl) {
-                SaveImageJob::dispatch($imageUrl, $size);
+                SaveImageJob::dispatch($imageUrl, $size, $oracleId);
             }
         }
     }

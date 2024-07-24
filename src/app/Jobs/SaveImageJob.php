@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Scryfall\Models\Card;
 use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -17,17 +18,20 @@ class SaveImageJob implements ShouldQueue
 
     public string $imageUrl;
     public string $size;
+    public string $oracleId;
 
     /**
      * Create a new job instance.
      *
      * @param string $imageUrl
      * @param string $size
+     * @param string $oracleId
      */
-    public function __construct(string $imageUrl, string $size)
+    public function __construct(string $imageUrl, string $size, string $oracleId)
     {
         $this->imageUrl = $imageUrl;
         $this->size = $size;
+        $this->oracleId = $oracleId;
     }
 
     /**
@@ -56,6 +60,10 @@ class SaveImageJob implements ShouldQueue
             if (!$success) {
                 throw new Exception("Could not save image to disk: $path");
             }
+
+            Card::where('oracle_id', $this->oracleId)->update([
+                    "imgs_local->{$this->size}" => $path
+                ]);
         } catch (\Exception $e) {
             Log::error('Error saving image asynchronously: ' . $e->getMessage());
         }

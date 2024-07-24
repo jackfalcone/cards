@@ -32,8 +32,9 @@ interface CardServiceInterface
 
     /**
      * @param array $imageUris
+     * @param string $oracleId
      * @return void
      */
-    public function saveImagesAsync(array $imageUris): void;
+    public function saveImagesAsync(array $imageUris, string $oracleId): void;
 
 }

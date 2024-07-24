@@ -68,7 +68,8 @@ class Card extends Model
         'preview',
         'prices',
         'related_uris',
-        'purchase_uris'
+        'purchase_uris',
+        'imgs_local'
     ];
 
     protected $casts = [
@@ -95,6 +96,7 @@ class Card extends Model
         'prices' => 'array',
         'related_uris' => 'array',
         'purchase_uris' => 'array',
-        'released_at' => 'date'
+        'released_at' => 'date',
+        'imgs_local' => 'array'
     ];
 }

@@ -71,6 +71,7 @@ return new class extends Migration
             $table->json('prices')->nullable();
             $table->json('related_uris')->nullable();
             $table->json('purchase_uris')->nullable();
+            $table->json('imgs_local')->nullable();
             $table->timestamps();
         });
     }

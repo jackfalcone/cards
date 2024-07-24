@@ -16,16 +16,19 @@ const CardsGridHeader = ({ selectedSetIconUri, priceSetUsd, setAmount, selectedS
             }
             <h2 className="ml-1 text-lg font-bold">{ selectedSetLabel ? selectedSetLabel : null }</h2>
         </div>
-        <div className="flex flex-row items-center mt-3 text-base">
-            <div className="flex flex-row items-center">
-                <FunctionsOutlinedIcon className="opacity-65"/>
-                <span>{setAmount ? `${setAmount} card${setAmount > 1 ? 's' : ''}` : 'N/A'}</span>
-            </div>
-            <div className="flex flex-row items-center ml-6">
-                <LocalAtmOutlinedIcon className="opacity-65" />
-                <span className="ml-1">{priceSetUsd ? `${priceSetUsd.toFixed(2)} USD` : 'N/A'}</span>
-            </div>
-        </div>
+        {setAmount
+            ?   <div className="flex flex-row items-center mt-3 text-base">
+                    <div className="flex flex-row items-center">
+                        <FunctionsOutlinedIcon className="opacity-65"/>
+                        <span>{setAmount ? `${setAmount} card${setAmount > 1 ? 's' : ''}` : 'N/A'}</span>
+                    </div>
+                    <div className="flex flex-row items-center ml-6">
+                        <LocalAtmOutlinedIcon className="opacity-65"/>
+                        <span className="ml-1">{priceSetUsd ? `${priceSetUsd.toFixed(2)} USD` : 'N/A'}</span>
+                    </div>
+                </div>
+            : null
+        }
     </div>
 )
 
