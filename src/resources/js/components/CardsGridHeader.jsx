@@ -8,13 +8,13 @@ const CardsGridHeader = ({ selectedSetIconUri, priceSetUsd, setAmount, selectedS
             {selectedSetIconUri
                 ?   <img
                     loading="lazy"
-                    className="w-8 h-8"
+                    className="w-12 h-12"
                     src={selectedSetIconUri}
                     alt=""
                 />
                 : null
             }
-            <h2 className="ml-1 text-base font-bold">{ selectedSetLabel ? selectedSetLabel : null }</h2>
+            <h2 className="ml-1 text-lg font-bold">{ selectedSetLabel ? selectedSetLabel : null }</h2>
         </div>
         <div className="flex flex-row items-center mt-3 text-base">
             <div className="flex flex-row items-center">

@@ -41,8 +41,8 @@ const Index = ({ sets, randomCards }) => {
     return (
         <div className="">
             <div className="mx-auto mb-6">
-               <Heading textBefore="Magic" textMarked="The Gathering" textAfter="cards" />
-                <div className="mt-12 flex justify-evenly align-baseline max-w-md mx-auto">
+               <Heading textBefore="Magic" textMarked="The Gathering" textAfter="Cards" />
+                <div className="mt-12 flex flex-wrap justify-evenly align-baseline max-w-md mx-auto">
                     <AutocompleteSelect
                         sets={sets}
                         setSelectedSet={setSelectedSet}
