@@ -27,7 +27,7 @@ const Card = ({ card, source, scrollPosition }) => {
     }, []);
 
     return (
-        <picture className="p-4 max-w-sm">
+        <picture className="m-8 max-w-sm shadow-xl shadow-indigo-200 leading-none">
             <LazyLoadImage
                 alt={card.name}
                 effect="blur"
